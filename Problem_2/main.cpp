@@ -11,7 +11,7 @@ bool stringsArePermutations(const std::string& firstString, const std::string& s
     }
 
     // Assuming that the strings consists of ASCII chars.
-    std::array<unsigned int, 255> charHashArray{0};
+    std::array<int, 255> charHashArray{0};
 
     for(int i = 0; i < firstString.size(); i++){
         charHashArray[(size_t)firstString[i]]++;

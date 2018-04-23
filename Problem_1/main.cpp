@@ -19,7 +19,7 @@ bool uniqueCharacters(const std::string& inputString){
     // Most basic of hashing functions. Who doesn't like
     // the identity transform?
     for(int i = 0; i < indexLimit; i++){
-        if(charArray[(size_t)inputString[i]] == true){
+        if(charArray[(size_t)inputString[i]]){
             return false;
         }
         charArray[(size_t)inputString[i]] = true;
@@ -33,8 +33,8 @@ int main(){
     std::string str1 = "aherqmca";
     std::string str2 = "asdfghjkl";
 
-    std::cout<<uniqueCharacters(str1)<<std::endl;
-    std::cout<<uniqueCharacters(str2)<<std::endl;
+    std::cout<<uniqueCharacters(str1)<<std::endl; // True.
+    std::cout<<uniqueCharacters(str2)<<std::endl; // False.
 
     return 0;
 }

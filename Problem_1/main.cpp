@@ -30,11 +30,8 @@ bool uniqueCharacters(const std::string& inputString){
 
 int main(){
     // Now to test this arcane code.
-    std::string str1 = "aherqmca";
-    std::string str2 = "asdfghjkl";
-
-    std::cout<<uniqueCharacters(str1)<<std::endl; // True.
-    std::cout<<uniqueCharacters(str2)<<std::endl; // False.
+    std::cout<<uniqueCharacters("aherqmca")<<std::endl; // True.
+    std::cout<<uniqueCharacters("asdfghjkl")<<std::endl; // False.
 
     return 0;
 }

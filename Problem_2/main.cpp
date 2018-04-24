@@ -19,10 +19,7 @@ bool stringsArePermutations(const std::string& firstString, const std::string& s
 
     for(int i = 0; i < secondString.size(); i++){
         charHashArray[(size_t)secondString[i]]--;
-    }
-
-    for(int i = 0; i < charHashArray.size(); i++){
-        if(charHashArray[i] != 0){
+        if(charHashArray[(size_t)secondString[i]] < 0){
             return false;
         }
     }

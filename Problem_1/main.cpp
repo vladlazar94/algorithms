@@ -4,7 +4,7 @@
 #include <array>
 #include <iostream>
 
-// Time: O(n) Space: o
+// O(n) in the number of chars in inputString.
 bool uniqueCharacters(const std::string& inputString){
     // Assuming the string consists of ASCII characters,
     // of which there are at most 255.
@@ -18,7 +18,7 @@ bool uniqueCharacters(const std::string& inputString){
 
     // Most basic of hashing functions. Who doesn't like
     // the identity transform?
-    for(int i = 0; i < indexLimit; i++){
+    for(size_t i = 0; i < indexLimit; i++){
         if(charArray[(size_t)inputString[i]]){
             return false;
         }

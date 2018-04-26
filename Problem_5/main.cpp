@@ -6,7 +6,7 @@
 
 // O(n) in the size of the shorter string.
 bool oneEditAway(const std::string& first, const std::string& second){
-    if((first.size() - second.size()) > 1){
+    if(std::abs(first.size() - second.size()) > 1){
         return false;
     }
 

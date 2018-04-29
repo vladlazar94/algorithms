@@ -6,7 +6,7 @@
 
 // O(n) in the size of the shorter string.
 bool oneEditAway(const std::string& first, const std::string& second){
-    if(std::abs(first.size() - second.size()) > 1){
+    if(std::abs((int)first.size() - (int)second.size()) > 1){
         return false;
     }
 
@@ -35,7 +35,7 @@ bool oneEditAway(const std::string& first, const std::string& second){
 
             if(shorterString[shorterIndex] != longerString[longerIndex]){
                 longerIndex++;
-                if(longerIndex - shorterIndex > 1){
+                if(shorterString[shorterIndex] != longerString[longerIndex]){
                     return false;
                 }
             }
@@ -50,11 +50,11 @@ bool oneEditAway(const std::string& first, const std::string& second){
 int main() {
 
     // Tests:
-    std::cout<<oneEditAway("abc", "abd")<<std::endl; // True.
-    std::cout<<oneEditAway("abc", "ab")<<std::endl; // True.
-    std::cout<<oneEditAway("abc", "dab")<<std::endl; // False.
-    std::cout<<oneEditAway("abc", "ac")<<std::endl; // True.
-    std::cout<<oneEditAway("abc", "aef")<<std::endl; // False.
-
+    std::cout << oneEditAway("abc", "abd") << std::endl; // True.
+    std::cout << oneEditAway("abc", "ab")  << std::endl; // True.
+    std::cout << oneEditAway("abc", "dab") << std::endl; // False.
+    std::cout << oneEditAway("abc", "ac")  << std::endl; // True.
+    std::cout << oneEditAway("abc", "aef") << std::endl; // False.
+    std::cout << oneEditAway("abd", "addd")<< std::endl; // False.
     return 0;
 }

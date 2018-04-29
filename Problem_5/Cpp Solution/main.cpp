@@ -35,7 +35,7 @@ bool oneEditAway(const std::string& first, const std::string& second){
 
             if(shorterString[shorterIndex] != longerString[longerIndex]){
                 longerIndex++;
-                if(shorterString[shorterIndex] != longerString[longerIndex]){
+                if(shorterString[shorterIndex] != longerString[longerIndex] or longerIndex - shorterIndex > 1){
                     return false;
                 }
             }
@@ -56,5 +56,6 @@ int main() {
     std::cout << oneEditAway("abc", "ac")  << std::endl; // True.
     std::cout << oneEditAway("abc", "aef") << std::endl; // False.
     std::cout << oneEditAway("abd", "addd")<< std::endl; // False.
+
     return 0;
 }

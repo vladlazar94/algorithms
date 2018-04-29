@@ -4,6 +4,9 @@
 #include <iostream>
 #include <string>
 
+// A simple print macro.
+#define print(line) (std::cout << line << std::endl);
+
 // O(n) in the size of the shorter string.
 bool oneEditAway(const std::string& first, const std::string& second){
     if(std::abs((int)first.size() - (int)second.size()) > 1){
@@ -50,12 +53,13 @@ bool oneEditAway(const std::string& first, const std::string& second){
 int main() {
 
     // Tests:
-    std::cout << oneEditAway("abc", "abd") << std::endl; // True.
-    std::cout << oneEditAway("abc", "ab")  << std::endl; // True.
-    std::cout << oneEditAway("abc", "dab") << std::endl; // False.
-    std::cout << oneEditAway("abc", "ac")  << std::endl; // True.
-    std::cout << oneEditAway("abc", "aef") << std::endl; // False.
-    std::cout << oneEditAway("abd", "addd")<< std::endl; // False.
+
+    print(oneEditAway("abc", "abd"))  // True.
+    print(oneEditAway("abc", "ab"))   // True.
+    print(oneEditAway("abc", "dab"))  // False.
+    print(oneEditAway("abc", "ac"))   // True.
+    print(oneEditAway("abc", "aef"))  // False.
+    print(oneEditAway("abd", "addd")) // False.
 
     return 0;
 }

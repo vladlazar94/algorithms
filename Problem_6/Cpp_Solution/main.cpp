@@ -8,6 +8,8 @@
 // A simple print macro.
 #define print(line) (std::cout << line << std::endl);
 
+// O(n) in the length of the input string. Note: This implementation makes use of an additional vector to store idices.
+// This can be avoided by constructing the output string directly (with a slightly bushier code).
 std::string compressString(const std::string& inputString){
 
     if(inputString.size() < 2){
@@ -26,18 +28,26 @@ std::string compressString(const std::string& inputString){
     }
     charIndices.push_back(inputString.size());
 
-    print("got Here!")
-
+    unsigned int count = 0;
     for(size_t index = 0; index < charIndices.size() - 1; index++){
+
+        count = (unsigned int)charIndices[index + 1] - (unsigned int)charIndices[index];
+
         outputString.push_back(inputString[charIndices[index]]);
-        outputString.append(std::to_string((int)charIndices[index + 1] - (int)charIndices[index]));
+        if(count > 1){
+            outputString.append(std::to_string(count));
+        }
     }
 
-   return outputString;
+    if(outputString.size() > inputString.size()){
+        return inputString;
+    }
+    return outputString;
 }
 
 int main(){
 
     print(compressString("aaabbcdddeff"))
+    print(compressString("abc"))
     return 0;
 }

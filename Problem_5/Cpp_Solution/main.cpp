@@ -24,8 +24,7 @@ bool oneEditAway(const std::string& first, const std::string& second){
             }
         }
         return true;
-    }
-    else{
+    } else {
         // Get the shorter, respectively the longer string:
         const std::string& longerString = first.size() > second.size() ? first : second;
         const std::string& shorterString = first.size() > second.size() ? second : first;

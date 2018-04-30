@@ -39,7 +39,7 @@ std::string compressString(const std::string& inputString){
         }
     }
 
-    if(outputString.size() > inputString.size()){
+    if(outputString.size() >= inputString.size()){
         return inputString;
     }
     return outputString;

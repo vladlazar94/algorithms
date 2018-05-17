@@ -33,17 +33,4 @@ def zeroElement(matrix):
                 matrix[rowIndex][columnIndex] = 0
 
 
-
-matrix = [[1, 1, 1, 0], 
-          [1, 1, 1, 1],
-          [1, 0, 1, 1],
-          [1, 1, 1, 1]]
-
-zeroElement(matrix)
-
-print(matrix[0])
-print(matrix[1])
-print(matrix[2])
-print(matrix[3])
-
     

@@ -44,10 +44,3 @@ std::string compressString(const std::string& inputString){
     }
     return outputString;
 }
-
-int main(){
-
-    print(compressString("aaabbcdddeff"))
-    print(compressString("abc"))
-    return 0;
-}

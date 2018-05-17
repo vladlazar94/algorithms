@@ -38,9 +38,3 @@ func compressString(inputString string) string {
 	}
 	return outputString
 }
-
-func main() {
-
-	println(compressString("abbbc"))
-
-}

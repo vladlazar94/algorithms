@@ -29,11 +29,3 @@ bool palindromePermutation(const std::string& inputString){
     }
     return false;
 }
-
-int main(){
-
-    std::cout<<palindromePermutation("aabcdbc")<<std::endl; // True.
-    std::cout<<palindromePermutation("abcdaef")<<std::endl; // False.
-
-    return 0;
-}

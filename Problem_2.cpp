@@ -28,10 +28,4 @@ bool stringsArePermutations(const std::string& firstString, const std::string& s
     return true;
 }
 
-int main(){
 
-    std::cout<<stringsArePermutations("abc", "bac")<<std::endl;
-    std::cout<<stringsArePermutations("abc", "bcd")<<std::endl;
-
-    return 0;
-}

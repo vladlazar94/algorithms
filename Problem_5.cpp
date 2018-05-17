@@ -49,16 +49,3 @@ bool oneEditAway(const std::string& first, const std::string& second){
     }
 }
 
-int main() {
-
-    // Tests:
-
-    print(oneEditAway("abc", "abd"))  // True.
-    print(oneEditAway("abc", "ab"))   // True.
-    print(oneEditAway("abc", "dab"))  // False.
-    print(oneEditAway("abc", "ac"))   // True.
-    print(oneEditAway("abc", "aef"))  // False.
-    print(oneEditAway("abd", "addd")) // False.
-
-    return 0;
-}

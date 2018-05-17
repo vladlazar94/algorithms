@@ -54,12 +54,3 @@ func isOneEditAway(firstString string, secondString string) bool {
 	}
 
 }
-
-func main() {
-
-	println(isOneEditAway("abc", "abd"))  // True.
-	println(isOneEditAway("abc", "ab"))   // True.
-	println(isOneEditAway("abc", "dab"))  // False.
-	println(isOneEditAway("abd", "addd")) // False.
-
-}

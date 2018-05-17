@@ -32,9 +32,4 @@ std::string URLfy(const std::string& inputString){
     return outputString;
 }
 
-int main(){
-    std::string test = "  ab cd ef  ";
-    std::cout<<URLfy(test)<<std::endl;
 
-    return 0;
-}

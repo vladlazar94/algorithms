@@ -26,12 +26,3 @@ bool uniqueCharacters(const std::string& inputString){
     }
     return true;
 }
-
-
-int main(){
-    // Now to test this arcane code.
-    std::cout<<uniqueCharacters("aherqmca")<<std::endl; // True.
-    std::cout<<uniqueCharacters("asdfghjkl")<<std::endl; // False.
-
-    return 0;
-}

@@ -30,17 +30,17 @@ class BSTree:
         if self.right is not None:
             self.right.inorder_print()
 
-def create_bst_rec  (sorted_list, index_start, index_end):
+def assemble_bst_rec  (sorted_list, index_start, index_end):
     if index_end < index_start:
         return None    
     index_middle = (index_start + index_end) // 2
     bst = BSTree(sorted_list[index_middle])
-    bst.left = create_bst_rec(sorted_list, index_start, index_middle - 1)
-    bst.right = create_bst_rec(sorted_list, index_middle + 1, index_end)
+    bst.left = assemble_bst_rec(sorted_list, index_start, index_middle - 1)
+    bst.right = assemble_bst_rec(sorted_list, index_middle + 1, index_end)
     return bst
 
-def create_bst (sorted_list):
-    return create_bst_rec(sorted_list, 0, len(sorted_list) - 1)
+def assemble_bst (sorted_list):
+    return assemble_bst_rec(sorted_list, 0, len(sorted_list) - 1)
 
 
 

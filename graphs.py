@@ -1,12 +1,14 @@
 from collections import deque
 
 class GraphNode: 
+
     def __init__ (self, data, neighbours):
         self.data = data
         self.neighbours = neighbours
         self.visited = False
 
 class Graph:
+    
     def __init__ (self):
         self.nodes = []
 

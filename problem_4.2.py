@@ -2,6 +2,7 @@
 # write an algorithm to create a binary search tree of minimal height.
 
 class BSTree:
+    
     def __init__ (self, data = None):
         self.data = data
         self.left = None

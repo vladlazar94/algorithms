@@ -38,18 +38,18 @@ class BSTree:
     def list_of_depths_rec (self):
         list_of_depths = {}
 
-        def lodr (bstree, level):
+        def inner (bstree, level):
             if bstree.left is not None:
-                lodr(bstree.left, level + 1)
+                inner(bstree.left, level + 1)
             if level in list_of_depths:
                 list_of_depths[level].append(bstree.data)
             else:
                 list_of_depths[level] = deque()
                 list_of_depths[level].append(bstree.data)
             if bstree.right is not None:
-                lodr(bstree.right, level + 1)
+                inner(bstree.right, level + 1)
 
-        lodr(self, 0)
+        inner(self, 0)
         return list_of_depths
 
     def list_of_depths_iter (self):   

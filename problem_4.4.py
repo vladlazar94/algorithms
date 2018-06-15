@@ -1,6 +1,8 @@
-# Problem 4.2: Given a sorted (increasing order) array with unique integer elements,
-# write an algorithm to create a binary search tree of minimal height.
+# Problem 4.4: Implement a function to check 
+# whether a binary tree is balance.
 
+# Using a binary search tree, without loss 
+# of generality, for convenience.
 class BSTree:
     
     def __init__ (self, data = None):
@@ -31,18 +33,18 @@ class BSTree:
         if self.right is not None:
             self.right.inorder_print()
 
-def assemble_bst (sorted_list):
-    
-    def inner (sorted_list, index_start, index_end):
-        if index_end < index_start:
-            return None    
-        index_middle = (index_start + index_end) // 2
-        bst = BSTree(sorted_list[index_middle])
-        bst.left = inner(sorted_list, index_start, index_middle - 1)
-        bst.right = inner(sorted_list, index_middle + 1, index_end)
-        return bst
+    def is_balanced(self):
         
-    return inner(sorted_list, 0, len(sorted_list) - 1)
-
-
+        def inner(node):
+            if node is None: 
+                return 0
+            left = inner(node.left)
+            right = inner(node.right)
+            if (left is False) or (right is False):
+                return False                 
+            if abs(left - right) < 2: 
+                return max(left, right) + 1
+            return False
+            
+        return False if inner(self) is False else True
 

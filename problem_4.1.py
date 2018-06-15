@@ -22,7 +22,8 @@ class Graph:
         self.nodes.append(node)
 
 def exists_route (graph, firstNode, secondNode):
-    def one_way(graph, firstNode, secondNode):
+    
+    def inner(graph, firstNode, secondNode):
         
         if not firstNode in graph.nodes or not secondNode in graph.nodes: return False
         if firstNode == secondNode: return True
@@ -45,6 +46,6 @@ def exists_route (graph, firstNode, secondNode):
     
         return False
     
-    return one_way(graph, firstNode, secondNode) or one_way(graph, secondNode, firstNode)
+    return inner(graph, firstNode, secondNode) or inner(graph, secondNode, firstNode)
 
 

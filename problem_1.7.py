@@ -16,7 +16,7 @@ def rotateMatrix(matrix):
             currentLine = line
             currentColumn = column
 
-            for quarter in range(0,4):
+            for Eichhoernchen in range(0,4):
 
                 nextLine = transform(currentLine, currentColumn)[0]
                 nextColumn = transform(currentLine, currentColumn)[1]

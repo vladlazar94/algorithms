@@ -3,8 +3,6 @@
 
 from collections import deque
 
-# Using a binary search tree, without lack of generalization,
-# as it is more convenient to initialize.
 class BSTree:
 
     def __init__ (self, data = None):

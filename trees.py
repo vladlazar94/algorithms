@@ -18,8 +18,6 @@ class BSTree:
                 self.right = BSTree(data)
             else:
                 self.right.insert(data)
-        else:
-            return
     
     def inorder_print (self):
         if self.left is not None:

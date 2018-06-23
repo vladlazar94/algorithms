@@ -40,16 +40,14 @@ def next (node):
     def lowest_left (node):
         if node.left is None:
             return node
-        else:
-            return lowest_left(node.left)
+        return lowest_left(node.left)
 
     def highest_right (node):
         if node.parent is None:
             return None
-        elif node is node.parent.left:
+        if node is node.parent.left:
             return node.parent
-        else: 
-            return highest_right(node.parent)
+        return highest_right(node.parent)
             
     if node.right is not None:
         return lowest_left(node.right)

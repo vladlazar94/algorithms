@@ -1,32 +1,35 @@
 from collections import deque
 
+
 class GraphNode: 
 
-    def __init__ (self, data, neighbours):
+    def __init__(self, data, neighbours):
         self.data = data
         self.neighbours_indices = neighbours
         self.visited = False
 
+
 class Graph:
     
-    def __init__ (self):
+    def __init__(self):
         self.nodes = []
 
-    def reset (self):
+    def reset(self):
         for node in self.nodes:
             node.visited = False
 
-    def push (self, node): 
+    def push(self, node):
         self.nodes.append(node)
 
-    def df_search (self, root):
-        if root.visited == True: return
+    def df_search(self, root):
+        if root.visited:
+            return
         root.visited = True
         print(root.data)
         for index in root.neighbour_indices:
             self.df_search(self.nodes[index])
 
-    def bf_search (self, root):
+    def bf_search(self, root):
         root.visited = True
         q = deque()
         q.appendleft(root)
@@ -35,11 +38,12 @@ class Graph:
             node = q.pop()
             print(node.data)
             for index in node.neighbour_indices:
-                if self.nodes[index].visited == True: continue
+                if self.nodes[index].visited:
+                    continue
                 self.nodes[index].visited = True
                 q.appendleft(self.nodes[index])
         
-    def top_sort (self):
+    def top_sort(self):
         for node in self.nodes:
             node.incoming = 0
 
@@ -63,7 +67,6 @@ class Graph:
                 if neighbour.incoming is 0:
                     queue.appendleft(neighbour)
 
-            
         if len(top_sort) is not len(self.nodes):
             print("Graph is not acyclical")
             return

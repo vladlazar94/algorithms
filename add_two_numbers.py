@@ -13,19 +13,18 @@ class ListNode:
         self.next = None
 
 
-def addTwoNumbers(l1, l2):
+def add_two_numbers(l1, l2):
 
     result = ListNode(0)
 
     pointer = result 
 
     carry = 0
-    value = 0
 
     l1temp = l1
     l2temp = l2
 
-    while l1temp != None or l2temp != None:
+    while l1temp is not None or l2temp is not None:
 
         value = 0
 
@@ -46,8 +45,8 @@ def addTwoNumbers(l1, l2):
         pointer.next = ListNode(0)
         pointer = pointer.next
 
-
     return result
+
 
 test1 = ListNode(2)
 test1.next = ListNode(4)
@@ -57,6 +56,6 @@ test2 = ListNode(5)
 test2.next = ListNode(6)
 test2.next.next = ListNode(4)
 
-result = addTwoNumbers(l1 = test1, l2 = test2)
+temp_result = add_two_numbers(l1 = test1, l2 = test2)
 
 x = 1

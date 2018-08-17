@@ -1,6 +1,7 @@
 # Problem_4: Write a program that checks whether
 # a given string is a permutation of a palindrome.
 
+
 def palindrome_permutation (string):
     char_map = {}
 
@@ -14,3 +15,4 @@ def palindrome_permutation (string):
         return False
     
     return True
+

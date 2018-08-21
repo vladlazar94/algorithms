@@ -31,11 +31,6 @@ def lengthOfLongestSubstring(s):
     return longest_length
 
 
-print(lengthOfLongestSubstring(''))
-
-
-
-
 
 
 

@@ -1,8 +1,5 @@
-# Given a 32-bit signed integer, reverse digits of an integer.
-
-
 def reverse(x):
-
+    """ Reverses the digits of an integer. """
     sign = x / abs(x)
     x *= sign
 

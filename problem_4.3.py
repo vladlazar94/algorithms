@@ -1,11 +1,12 @@
-# Problem 4.3: Given a binary tree, write an algorihm that 
+# Problem 4.3: Given a binary tree, write an algorithm that
 # creates a linked list of all the nodes at each depth.
 
 from collections import deque
 
+
 class BSTree:
 
-    def __init__ (self, data = None):
+    def __init__ (self, data=None):
         self.data = data
         self.left = None
         self.right = None
@@ -26,7 +27,7 @@ class BSTree:
         else:
             return
 
-    def print_inorder (self):
+    def print_inorder(self):
         if self.left is not None:
             self.left.print_inorder()
         print(self.data)

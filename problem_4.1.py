@@ -3,6 +3,7 @@
 
 from collections import deque
 
+
 class GraphNode: 
     
     def __init__ (self, data, neighbours):
@@ -10,7 +11,10 @@ class GraphNode:
         self.neighbours = neighbours
         self.visited = False
 
+
+
 class Graph:
+
     def __init__ (self):
         self.nodes = []
 
@@ -20,6 +24,7 @@ class Graph:
 
     def push (self, node): 
         self.nodes.append(node)
+        
 
 def exists_route (graph, firstNode, secondNode):
     

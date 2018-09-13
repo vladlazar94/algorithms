@@ -12,7 +12,6 @@ class GraphNode:
         self.visited = False
 
 
-
 class Graph:
 
     def __init__ (self):

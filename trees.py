@@ -20,7 +20,7 @@ class BSTree:
             else:
                 self.left.insert(value)
 
-    def inorder_print(self):
+    def in_order_print(self):
 
         if self.left is not None:
             self.left.inorder_print()
@@ -36,4 +36,4 @@ tree.insert(2)
 tree.insert(6)
 tree.insert(7)
 tree.insert(1)
-tree.inorder_print()
+

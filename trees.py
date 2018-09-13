@@ -1,3 +1,6 @@
+from deque import Deque
+
+
 class BSTree:
 
     def __init__(self, value):
@@ -20,20 +23,37 @@ class BSTree:
             else:
                 self.left.insert(value)
 
-    def in_order_print(self):
+    def in_order_search(self, func=print):
 
         if self.left is not None:
-            self.left.inorder_print()
-        
-        print(self.value)
+            self.left.in_order_search()
+
+        func(self.value)
 
         if self.right is not None:
-            self.right.inorder_print()
+            self.right.in_order_search()
+
+    def list_of_depths(self):
+        depths = {}
+
+        def collect(node, depth):
+            if depth in depths:
+                depths[depth].push_right(node.value)
+            else:
+                depths[depth] = Deque(node.value)
+
+            if node.left:
+                collect(node.left, depth + 1)
+            if node.right:
+                collect(node.right, depth + 1)
+
+        collect(self, 0)
+        return depths
 
 
-tree = BSTree(5)
-tree.insert(2)
-tree.insert(6)
-tree.insert(7)
-tree.insert(1)
+
+
+
+
+
 

@@ -1,78 +1,74 @@
-from collections import deque
+from deque import Deque
 
 
-class GraphNode: 
+class GraphNode:
 
-    def __init__(self, data, neighbours):
-        self.data = data
-        self.neighbours_indices = neighbours
+    def __init__(self, value, neighbours=None):
+        self.value = value
+        self.neighbours = [] if not neighbours else neighbours
+        self.incoming = []
         self.visited = False
 
 
 class Graph:
-    
-    def __init__(self):
-        self.nodes = []
+
+    def __init__(self, nodes):
+        self.nodes = nodes
+        for node_index in range(len(nodes)):
+            curr_node = self.nodes[node_index]
+            for neighbour_index in curr_node.neighbours:
+                self.nodes[neighbour_index].incoming.append(node_index)
 
     def reset(self):
         for node in self.nodes:
             node.visited = False
 
-    def push(self, node):
-        self.nodes.append(node)
-
-    def df_search(self, root):
+    def df_search(self, root, func):
         if root.visited:
             return
         root.visited = True
-        print(root.data)
-        for index in root.neighbour_indices:
-            self.df_search(self.nodes[index])
 
-    def bf_search(self, root):
+        func(root.value)
+
+        for neighbour in root.neighbours:
+            self.df_search(self.nodes[neighbour], func)
+
+    def bf_search(self, root, func=print):
         root.visited = True
-        q = deque()
-        q.appendleft(root)
+        deque = Deque(root)
 
-        while len(q) > 0:
-            node = q.pop()
-            print(node.data)
-            for index in node.neighbour_indices:
-                if self.nodes[index].visited:
-                    continue
-                self.nodes[index].visited = True
-                q.appendleft(self.nodes[index])
-        
-    def top_sort(self):
-        for node in self.nodes:
-            node.incoming = 0
+        while not deque.empty():
+            node = deque.pop_right()
+            func(node.value)
 
-        for node in self.nodes:
-            for index in node.neighbour_indices:
-                self.nodes[index].incoming += 1
-        
-        top_sort = []
-        queue = deque()
-
-        for node in self.nodes:
-            if node.incoming is 0:
-                queue.appendleft(node)
-
-        while len(queue) is not 0:
-            node = queue.pop()
-            top_sort.append(node)
-            for index in node.neighbour_indices:
+            for index in node.neighbours:
                 neighbour = self.nodes[index]
-                neighbour.incoming -= 1
-                if neighbour.incoming is 0:
-                    queue.appendleft(neighbour)
+                if not neighbour.visited:
+                    deque.push_left(neighbour)
+                neighbour.visited = True
 
-        if len(top_sort) is not len(self.nodes):
-            print("Graph is not acyclical")
-            return
-        
-        return top_sort
+    def is_connected(self):
+        self.reset()
+        self.bf_search(self.nodes[0])
 
-        
-    
+        for node in self.nodes:
+            if not node.visited:
+                self.reset()
+                return False
 
+        self.reset()
+        return True
+
+
+
+
+
+n0 = GraphNode(0, [2, 3])
+n1 = GraphNode(1, [0, 5])
+n2 = GraphNode(2, [1, 5])
+n3 = GraphNode(3, [5, 4])
+n4 = GraphNode(4, [])
+n5 = GraphNode(5, [0, 1, 2, 3])
+gr = Graph([n0, n1, n2, n3, n4, n5])
+
+gr.bf_search(n1)

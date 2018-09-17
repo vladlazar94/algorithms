@@ -13,30 +13,42 @@ class GraphNode:
 
 
 class UndirectedGraph:
+
     def __init__(self, vertices, edges):
-        self.nodes = list(set([GraphNode(vertex) for vertex in vertices]))
+        self.nodes = [GraphNode(vertex) for vertex in vertices]
 
-        self.registry = dict([(vertex, node) for vertex, node
-                              in zip(vertices, self.nodes)])
+        self.registry = dict([(vertex, node)
+                              for vertex, node in zip(vertices, self.nodes)])
 
-        for source, target in edges:
-            self.nodes[source].neighbours.add(target)
-            self.nodes[target].neighbours.add(source)
+        for left, right in edges:
+            self.nodes[left].neighbours.add(self.nodes[right])
+            self.nodes[right].neighbours.add(self.nodes[left])
 
-    def reset_visited(self):
+    def reset(self):
         for node in self.nodes:
             node.visited = False
 
-    def df_search(self, root, func=print):
-        if root.visited:
-            return
-        root.visited = True
-        func(root.value)
+    def df_search(self, vertex, func=print, reset=True):
 
-        for index in root.neighbours:
-            self.df_search(self.nodes[index])
+        def recursion(node, func):
+            if node.visited:
+                return
+            node.visited = True
+            func(node)
 
-    def bf_search(self, vertex, func=print):
+            for neighbour in node.neighbours:
+                recursion(neighbour, func)
+
+        if reset:
+            self.reset()
+
+        root = self.registry[vertex]
+        recursion(root, func)
+
+    def bf_search(self, vertex, func=print, reset=True):
+        if reset:
+            self.reset()
+
         root = self.registry[vertex]
         root.visited = True
         queue = Deque(root)
@@ -45,16 +57,22 @@ class UndirectedGraph:
             node = queue.pop_right()
             func(node.value)
 
-            for index in node.neighbours:
-                neighbour = self.nodes[index]
+            for neighbour in node.neighbours:
                 if not neighbour.visited:
+                    neighbour.visited = True
                     queue.push_left(neighbour)
-                neighbour.visited = True
 
-    def insert(self, vertex):
+    def add_node(self, vertex):
         if vertex not in self.registry:
-            self.nodes.append(GraphNode(vertex))
-            self.registry[vertex] = self.nodes[-1]
+            self.registry[vertex] = GraphNode(vertex)
+            self.nodes.append(self.registry[vertex])
+
+    def connect(self, first, second):
+        self.add_node(first)
+        self.add_node(second)
+
+        self.registry[first].neighbours.add(self.registry[second])
+        self.registry[second].neighbours.add(self.registry[first])
 
 
 nodes = [0, 1, 2, 3, 4]
@@ -68,5 +86,7 @@ edges = [
 ]
 
 graph = UndirectedGraph(nodes, edges)
+
+graph.bf_search(0)
 
 

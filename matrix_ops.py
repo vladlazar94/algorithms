@@ -27,20 +27,20 @@ def zero_element(matrix):
     """ If an element in the given matrix is 0, then
         its entire row and column will be set to 0. """
     row_bools = [False for x in range(len(matrix))]
-    col_bools =  [False for x in range(len(matrix))]
+    col_bools = [False for x in range(len(matrix))]
 
-    for row in range (len(matrix)):
+    for row in range(len(matrix)):
         for column in range(len(matrix)):
             if matrix[row][column] == 0:
                 row_bools[row] = True
                 col_bools[column] = True
 
-    for rowIndex in range (len(row_bools)):
+    for rowIndex in range(len(row_bools)):
         if row_bools[rowIndex]:
             for columnIndex in range(len(matrix)):
                 matrix[rowIndex][columnIndex] = 0
 
-    for columnIndex in range (len(col_bools)):
+    for columnIndex in range(len(col_bools)):
         if col_bools[columnIndex]:
             for rowIndex in range(len(matrix)):
                 matrix[rowIndex][columnIndex] = 0

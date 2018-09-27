@@ -92,14 +92,3 @@ class Deque:
         while iterator:
             func(iterator.value)
             iterator = iterator.right
-
-
-q = Deque(1)
-q.push_right(3)
-q.push_right(5)
-
-m = q.pop_right()
-n= q.pop_left()
-p = q.pop_right()
-
-x = 1

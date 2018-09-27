@@ -6,7 +6,7 @@ class GraphNode:
     def __init__(self, value):
         self.value = value
         self.neighbours = set([])
-        self.colour = False
+        self.colour = 'unvisited'
 
     def __str__(self):
         return str(self.value)
@@ -40,62 +40,7 @@ class UndirectedGraph:
 
     def reset(self):
         for node in self.nodes.values():
-            node.colour = False
-
-    def depth_first_search(self, vertex, func=print, reset=True):
-
-        def recursion(node, process):
-            if node.colour:
-                return
-            node.colour = True
-            process(node.value)
-
-            for node in node.neighbours:
-                recursion(node, process)
-
-        if reset:
-            self.reset()
-
-        root = self.nodes[vertex]
-        recursion(root, func)
-
-    def breadth_first_search(self, vertex, func=print, reset=True):
-        if reset:
-            self.reset()
-
-        root = self.nodes[vertex]
-        if root.colour:
-            return
-
-        root.colour = True
-        queue = Deque(root)
-
-        while not queue.empty():
-            node = queue.pop_right()
-            func(node.value)
-
-            for neighbour in node.neighbours:
-                if not neighbour.colour:
-                    neighbour.colour = True
-                    queue.push_left(neighbour)
-
-    def breadth_first_iter(self, root, reset=True):
-        """ Needs resetting after usage. """
-        if reset:
-            self.reset()
-
-        root.colour = True
-        queue = Deque(root)
-
-        while not queue.empty():
-            node = queue.pop_right()
-
-            for neighbour in node.neighbours:
-                if not neighbour.colour:
-                    neighbour.colour = True
-                    queue.push_left(neighbour)
-
-            yield node
+            node.colour = 'unvisited'
 
     def add_node(self, vertex):
         if vertex not in self.nodes:
@@ -122,44 +67,96 @@ class UndirectedGraph:
             self.nodes[first].neighbours.remove(self.nodes[second])
             self.nodes[second].neighbours.remove(self.nodes[first])
 
-    def connected_components(self):
+    def depth_first_search(self, vertex, func=print, reset=True):
+
+        def recursion(node, process):
+            if node.colour is not 'visited':
+                return
+            node.colour = 'visited'
+            process(node.value)
+
+            for node in node.neighbours:
+                recursion(node, process)
+
+        if reset:
+            self.reset()
+
+        root = self.nodes[vertex]
+        recursion(root, func)
+
+    def breadth_first_search(self, vertex, func=print):
+        self.reset()
+        root = self.nodes[vertex]
+        root.colour = 'visited'
+        queue = Deque(root)
+
+        while not queue.empty():
+            node = queue.pop_right()
+            func(node.value)
+
+            for neighbour in node.neighbours:
+                if not neighbour.colour:
+                    neighbour.colour = True
+                    queue.push_left(neighbour)
+
+        self.reset()
+
+    def __breadth_first_iter(self, root, colour='visited'):
+        """ Needs resetting before and after usage. """
+        root.colour = colour
+        queue = Deque(root)
+
+        while not queue.empty():
+            node = queue.pop_right()
+
+            for neighbour in node.neighbours:
+                if neighbour.colour is not colour:
+                    neighbour.colour = colour
+                    queue.push_left(neighbour)
+
+            yield node
+
+    def __connected_components(self):
         self.reset()
         components = []
 
-        for vertex in self.nodes.keys():
-            if not self.nodes[vertex].colour:
-                components.append(vertex)
-                self.breadth_first_search(vertex, lambda x: x, False)
+        for root in self.nodes.values():
+            if not root.colour:
+                components.append(root)
+                for _ in self.__breadth_first_iter(root):
+                    pass
 
         self.reset()
         return components
 
     def is_connected(self):
-        return len(self.connected_components()) == 1
+        return len(self.__connected_components()) == 1
 
-    def cycles_no(self):
-        edge_count, vertex_count, cycles = 0, 0, 0
+    def cycles_count(self):
+        cycles_count = 0
 
-        def collect(value):
-            nonlocal edge_count, vertex_count
-            vertex_count += 1
-            node = self.nodes[value]
-            edge_count += len(node.neighbours)
-
-        for vertex in self.connected_components():
-            self.breadth_first_search(vertex, collect)
-            cycles += max(edge_count // 2 - vertex_count + 1, 0)
+        for root in self.__connected_components():
             edge_count, vertex_count = 0, 0
 
-        return cycles
+            for node in self.__breadth_first_iter(root):
+                edge_count += len(node.neighbours)
+                vertex_count += 1
+
+            cycles_count += max(0, edge_count // 2 - vertex_count + 1)
+
+        self.reset()
+        return cycles_count
 
     def exists_path(self, first, second):
+        for blue, red in zip(self.__breadth_first_iter(graph.nodes[first], 'blue'),
+                             self.__breadth_first_iter(graph.nodes[second], 'red')):
 
-        def colour_blue(value):
-            self.nodes[value].colour = 'blue'
+            if blue.colour is 'red' or red.colour is 'blue':
+                self.reset()
+                return True
 
-        def colour_red(value):
-            self.nodes[value].colour = 'red'
+        self.reset()
+        return False
 
 
 nodes = [0, 1, 2, 3, 4]
@@ -175,6 +172,4 @@ edges = [
 graph = UndirectedGraph(nodes, edges)
 graph.connect(8, 9)
 graph.connect(9, 10)
-
-
-
+graph.connect(8, 10)

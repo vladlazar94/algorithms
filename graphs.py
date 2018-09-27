@@ -102,7 +102,6 @@ class UndirectedGraph:
         self.reset()
 
     def __breadth_first_iter(self, root, colour='visited'):
-        """ Needs resetting before and after usage. """
         root.colour = colour
         queue = Deque(root)
 

@@ -6,7 +6,7 @@ class GraphNode:
     def __init__(self, value):
         self.value = value
         self.neighbours = set([])
-        self.visited = False
+        self.colour = False
 
     def __str__(self):
         return str(self.value)
@@ -34,16 +34,20 @@ class UndirectedGraph:
             if vertex not in self.nodes:
                 self.nodes[vertex] = GraphNode(vertex)
 
+    def __iter__(self):
+        for key in self.nodes.keys():
+            yield key
+
     def reset(self):
         for node in self.nodes.values():
-            node.visited = False
+            node.colour = False
 
     def depth_first_search(self, vertex, func=print, reset=True):
 
         def recursion(node, process):
-            if node.visited:
+            if node.colour:
                 return
-            node.visited = True
+            node.colour = True
             process(node.value)
 
             for node in node.neighbours:
@@ -60,20 +64,38 @@ class UndirectedGraph:
             self.reset()
 
         root = self.nodes[vertex]
-        if root.visited:
+        if root.colour:
             return
 
-        root.visited = True
+        root.colour = True
         queue = Deque(root)
 
         while not queue.empty():
             node = queue.pop_right()
-            func(node)
+            func(node.value)
 
             for neighbour in node.neighbours:
-                if not neighbour.visited:
-                    neighbour.visited = True
+                if not neighbour.colour:
+                    neighbour.colour = True
                     queue.push_left(neighbour)
+
+    def breadth_first_iter(self, root, reset=True):
+        """ Needs resetting after usage. """
+        if reset:
+            self.reset()
+
+        root.colour = True
+        queue = Deque(root)
+
+        while not queue.empty():
+            node = queue.pop_right()
+
+            for neighbour in node.neighbours:
+                if not neighbour.colour:
+                    neighbour.colour = True
+                    queue.push_left(neighbour)
+
+            yield node
 
     def add_node(self, vertex):
         if vertex not in self.nodes:
@@ -105,7 +127,7 @@ class UndirectedGraph:
         components = []
 
         for vertex in self.nodes.keys():
-            if not self.nodes[vertex].visited:
+            if not self.nodes[vertex].colour:
                 components.append(vertex)
                 self.breadth_first_search(vertex, lambda x: x, False)
 
@@ -114,6 +136,30 @@ class UndirectedGraph:
 
     def is_connected(self):
         return len(self.connected_components()) == 1
+
+    def cycles_no(self):
+        edge_count, vertex_count, cycles = 0, 0, 0
+
+        def collect(value):
+            nonlocal edge_count, vertex_count
+            vertex_count += 1
+            node = self.nodes[value]
+            edge_count += len(node.neighbours)
+
+        for vertex in self.connected_components():
+            self.breadth_first_search(vertex, collect)
+            cycles += max(edge_count // 2 - vertex_count + 1, 0)
+            edge_count, vertex_count = 0, 0
+
+        return cycles
+
+    def exists_path(self, first, second):
+
+        def colour_blue(value):
+            self.nodes[value].colour = 'blue'
+
+        def colour_red(value):
+            self.nodes[value].colour = 'red'
 
 
 nodes = [0, 1, 2, 3, 4]
@@ -128,8 +174,7 @@ edges = [
 
 graph = UndirectedGraph(nodes, edges)
 graph.connect(8, 9)
-cmp = graph.connected_components()
-print(len(graph.connected_components()))
+graph.connect(9, 10)
 
 
 

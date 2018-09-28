@@ -20,11 +20,12 @@ class DirectedGraph:
         self.nodes = {}
 
         for outgoing, incoming in edges:
-            out_vertex = edges[outgoing]
+
+            out_vertex = vertices[outgoing]
             if out_vertex not in self.nodes:
                 self.nodes[out_vertex] = GraphNode(out_vertex)
 
-            in_vertex = edges[incoming]
+            in_vertex = vertices[incoming]
             if in_vertex not in self.nodes:
                 self.nodes[in_vertex] = GraphNode(in_vertex)
 
@@ -42,6 +43,15 @@ class DirectedGraph:
     def reset(self):
         for node in self.nodes.values():
             node.colour = 'unvisited'
+
+    def connect(self, first, second):
+        if first not in self.nodes:
+            self.nodes[first] = GraphNode(first)
+        if second not in self.nodes:
+            self.nodes[second] = GraphNode(second)
+
+        self.nodes[first].outgoing.add(self.nodes[second])
+        self.nodes[second].incoming.add(self.nodes[first])
 
     def depth_first_search(self, vertex, func=print, visit_colour='visited', reset=True):
         def recursion(root):
@@ -84,6 +94,39 @@ class DirectedGraph:
 
         if reset:
             self.reset()
+
+    def topological_sort(self):
+        self.reset()
+        queue = Deque()
+        topsort = []
+
+        for node in graph.nodes.values():
+            if len(node.incoming) is 0:
+                queue.push_left(node)
+
+        while not queue.empty():
+            node = queue.pop_right()
+            node.colour = 'done'
+            topsort.append(node.value)
+
+            for out_node in node.outgoing:
+                good_to_go = True
+
+                for in_node in out_node.incoming:
+                    if in_node.colour is not 'done':
+                        good_to_go = False
+                        break
+
+                if good_to_go:
+                    queue.push_left(out_node)
+
+        for node in self.nodes.values():
+            if node.colour is not 'done':
+                print('No topological sort exists. The graph has cycles.')
+                return
+
+        self.reset()
+        return topsort
 
 
 class UndirectedGraph:
@@ -247,10 +290,11 @@ edges = [
     (1, 2),
     (2, 0),
     (2, 3),
-    (3, 1)
+    (4, 1)
 ]
 
-graph = UndirectedGraph(nodes, edges)
+graph = DirectedGraph(nodes, edges)
 graph.connect(8, 9)
 graph.connect(9, 10)
 graph.connect(8, 10)
+

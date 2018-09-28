@@ -6,10 +6,84 @@ class GraphNode:
     def __init__(self, value):
         self.value = value
         self.neighbours = set([])
+        self.outgoing = set([])
+        self.incoming = set([])
         self.colour = 'unvisited'
 
     def __str__(self):
         return str(self.value)
+
+
+class DirectedGraph:
+
+    def __init__(self, vertices, edges):
+        self.nodes = {}
+
+        for outgoing, incoming in edges:
+            out_vertex = edges[outgoing]
+            if out_vertex not in self.nodes:
+                self.nodes[out_vertex] = GraphNode(out_vertex)
+
+            in_vertex = edges[incoming]
+            if in_vertex not in self.nodes:
+                self.nodes[in_vertex] = GraphNode(in_vertex)
+
+            self.nodes[out_vertex].outgoing.add(self.nodes[in_vertex])
+            self.nodes[in_vertex].incoming.add(self.nodes[out_vertex])
+
+        for vertex in vertices:
+            if vertex not in self.nodes:
+                self.nodes[vertex] = GraphNode(vertex)
+
+    def __iter__(self):
+        for key in self.nodes:
+            yield key
+
+    def reset(self):
+        for node in self.nodes.values():
+            node.colour = 'unvisited'
+
+    def depth_first_search(self, vertex, func=print, visit_colour='visited', reset=True):
+        def recursion(root):
+            if root.colour is visit_colour:
+                return
+            root.colour = visit_colour
+
+            func(root)
+
+            for out_node in root.outgoing:
+                recursion(out_node)
+
+        root = self.nodes[vertex]
+
+        if reset:
+            self.reset()
+        recursion(root)
+        if reset:
+            self.reset()
+
+    def breadth_first_search(self, vertex, visit_colour='visited', reset=True):
+        if reset:
+            self.reset()
+
+        queue = Deque()
+        root = self.nodes[vertex]
+
+        if root.colour is not visit_colour:
+            root.colour = visit_colour
+            queue.push_left(root)
+
+        while not queue.empty():
+            node = queue.pop_right()
+            for out_node in node.outgoing:
+                if out_node.colour is not visit_colour:
+                    out_node.colour = visit_colour
+                    queue.push_left(out_node)
+
+            yield node.value
+
+        if reset:
+            self.reset()
 
 
 class UndirectedGraph:
@@ -68,49 +142,57 @@ class UndirectedGraph:
             self.nodes[second].neighbours.remove(self.nodes[first])
 
     def depth_first_search(self, vertex, func=print, reset=True):
-
-        def recursion(node, process):
+        def recursion(node):
             if node.colour is not 'visited':
                 return
             node.colour = 'visited'
-            process(node.value)
+
+            func(node.value)
 
             for node in node.neighbours:
-                recursion(node, process)
+                recursion(node)
+
+        root = self.nodes[vertex]
+
+        if reset:
+            self.reset()
+        recursion(root)
+        if reset:
+            self.reset()
+
+    def breadth_first_search(self, vertex, visit_colour='visited', reset=True):
+        if reset:
+            self.reset()
+
+        queue = Deque()
+        root = self.nodes[vertex]
+        if root.colour is not visit_colour:
+            root.colour = visit_colour
+            queue.push_left(root)
+
+        while not queue.empty():
+            node = queue.pop_right()
+
+            for neighbour in node.neighbours:
+                if not neighbour.colour:
+                    neighbour.colour = visit_colour
+                    queue.push_left(neighbour)
+
+            yield node.value
 
         if reset:
             self.reset()
 
-        root = self.nodes[vertex]
-        recursion(root, func)
-
-    def breadth_first_search(self, vertex, func=print):
-        self.reset()
-        root = self.nodes[vertex]
-        root.colour = 'visited'
-        queue = Deque(root)
-
-        while not queue.empty():
-            node = queue.pop_right()
-            func(node.value)
-
-            for neighbour in node.neighbours:
-                if not neighbour.colour:
-                    neighbour.colour = True
-                    queue.push_left(neighbour)
-
-        self.reset()
-
-    def __breadth_first_iter(self, root, colour='visited'):
-        root.colour = colour
+    def __breadth_first_iter(self, root, visit_colour='visited'):
+        root.colour = visit_colour
         queue = Deque(root)
 
         while not queue.empty():
             node = queue.pop_right()
 
             for neighbour in node.neighbours:
-                if neighbour.colour is not colour:
-                    neighbour.colour = colour
+                if neighbour.colour is not visit_colour:
+                    neighbour.colour = visit_colour
                     queue.push_left(neighbour)
 
             yield node

@@ -50,10 +50,3 @@ class BSTree:
         collect(self, 0)
         return depths
 
-
-
-
-
-
-
-

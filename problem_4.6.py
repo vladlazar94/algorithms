@@ -35,14 +35,15 @@ class BSTree:
         if self.right is not None:
             self.right.inorder_print()
 
-def next (node):
+
+def next(node):
     
-    def lowest_left (node):
+    def lowest_left(node):
         if node.left is None:
             return node
         return lowest_left(node.left)
 
-    def highest_right (node):
+    def highest_right(node):
         if node.parent is None:
             return None
         if node is node.parent.left:

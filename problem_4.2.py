@@ -1,9 +1,10 @@
 # Problem 4.2: Given a sorted (increasing order) array with unique integer elements,
 # write an algorithm to create a binary search tree of minimal height.
 
+
 class BSTree:
     
-    def __init__ (self, data = None):
+    def __init__ (self, data=None):
         self.data = data
         self.left = None
         self.right = None
@@ -31,9 +32,10 @@ class BSTree:
         if self.right is not None:
             self.right.inorder_print()
 
-def assemble_bst (sorted_list):
+
+def assemble_bst(sorted_list):
     
-    def inner (sorted_list, index_start, index_end):
+    def inner(sorted_list, index_start, index_end):
         if index_end < index_start:
             return None    
         index_middle = (index_start + index_end) // 2

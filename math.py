@@ -1,5 +1,3 @@
-
-
 def combinations(data, size):
     if size is 1:
         return [[element] for element in data]

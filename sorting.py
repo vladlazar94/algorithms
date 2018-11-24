@@ -18,3 +18,24 @@ def quicksort(container):
     partition(container, 0, len(container) - 1)
 
 
+class BinaryHeap:
+    def __init__(self, array):
+        self.inner_array = array
+        self.heap_length = len(array)`
+
+    def current_level(self, index):
+        if index >= self.heap_length:
+            return None
+
+        total, exponent = 0, 0
+        while total <= index:
+            total += 2 ** exponent
+            exponent += 1
+
+        return exponent - 1
+
+    def left_index(self, index):
+        pass
+
+    def right_index(self, index):
+        pass

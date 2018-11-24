@@ -1,5 +1,5 @@
 # Problem 4.4: Implement a function to check 
-# whether a binary tree is balance.
+# whether a binary tree is balanced.
 
 # Using a binary search tree, without loss 
 # of generality, for convenience.
@@ -26,7 +26,7 @@ class BSTree:
         else:
             return
     
-    def inorder_print (self):
+    def inorder_print(self):
         if self.left is not None:
             self.left.inorder_print()
         print(self.data)

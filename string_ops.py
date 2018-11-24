@@ -153,3 +153,26 @@ def one_edit_away(first, second):
             shorter_index += 1
 
         return True
+
+
+def zig_zag_string(string, height):
+    height_map = {}
+    for level in range(height):
+        height_map[level] = []
+
+    level, switch = 0, -1
+    for char in string:
+        height_map[level].append(char)
+
+        if level == height - 1 or level == 0:
+            switch *= -1
+
+        level += switch
+
+    result = ""
+    for level in range(height):
+        for char in height_map[level]:
+            result += char
+
+    return result
+

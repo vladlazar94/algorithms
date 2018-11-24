@@ -21,7 +21,7 @@ def quicksort(container):
 class BinaryHeap:
     def __init__(self, array):
         self.inner_array = array
-        self.heap_length = len(array)`
+        self.heap_length = len(array)
 
     def current_level(self, index):
         if index >= self.heap_length:

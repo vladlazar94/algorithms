@@ -1,7 +1,10 @@
 package dynamicprogramming
 
-// MaxSubArray finds the sum of the contiguous subarray with the largest sum.
-func MaxSubArray(nums []int) int {
+/*
+Given an integer array nums, find the contiguous subarray (containing at least one number)
+which has the largest sum and return its sum.
+*/
+func maxSubArray(nums []int) int {
 	res, _ := solveSubProblem(nums)
 	return res
 }

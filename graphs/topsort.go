@@ -1,56 +1,37 @@
 package graphs
 
-type Node struct {
-	arrowsTo      []int
-	arrowsInCount int
-	visited       bool
-}
+/*
+TopSort performs a topological sort on DirectedStaticGraph, returning a list of
+node values respecing the edge ordering of the graph.
+*/
+func (graph *DirectedStaticGraph) TopSort() ([]interface{}, bool) {
+	graph.resetVisitedFlagForAllNodes()
+	graph.resetIncomingEdgesCountForAllNodes()
 
-type Graph struct {
-	nodes []Node
-}
-
-func (graph *Graph) Populate(nodeCount int, arrows [][]int) {
-	nodes := make([]Node, nodeCount)
-	for i := range nodes {
-		nodes[i] = Node{arrowsTo: []int{}, arrowsInCount: 0, visited: false}
-	}
-
-	for _, arrow := range arrows {
-		from, to := arrow[0], arrow[1]
-		startNode := &graph.nodes[from]
-		targetNode := &graph.nodes[to]
-
-		startNode.arrowsTo = append(startNode.arrowsTo, to)
-		targetNode.arrowsInCount++
-	}
-
-	graph.nodes = nodes
-}
-
-func (graph *Graph) TopSortTraverse(startIndex int) []int {
-	acc := []int{}
-	node := &graph.nodes[startIndex]
-
-	if !node.visited && node.arrowsInCount == 0 {
-		acc = append(acc, startIndex)
-		node.visited = true
-
-		for _, arrowToIndex := range node.arrowsTo {
-			graph.nodes[arrowToIndex].arrowsInCount--
-			acc = append(acc, graph.TopSortTraverse(arrowToIndex)...)
-		}
-	}
-
-	return acc
-}
-
-func (graph *Graph) TopSort() []int {
-	acc := []int{}
+	accumulatedValues := make([]interface{}, 0, len(graph.nodes))
 
 	for i := range graph.nodes {
-		acc = append(acc, graph.TopSortTraverse(i)...)
+		graph.accumulateValues(i, &accumulatedValues)
 	}
 
-	return acc
+	if len(accumulatedValues) == len(graph.nodes) {
+		return accumulatedValues, true
+	}
+
+	return nil, false
+}
+
+func (graph *DirectedStaticGraph) accumulateValues(startIndex int, acc *[]interface{}) {
+	node := &graph.nodes[startIndex]
+	if node.visited || node.incomungEdgesCount > 0 {
+		return
+	}
+
+	node.visited = true
+	*acc = append(*acc, node.value)
+
+	for _, nodeIndex := range node.outEdges {
+		graph.nodes[nodeIndex].incomungEdgesCount--
+		graph.accumulateValues(nodeIndex, acc)
+	}
 }

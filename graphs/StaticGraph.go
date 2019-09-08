@@ -6,18 +6,15 @@ constructed from a static list of values.
 It does not support insertion of removal of nodes or edges.
 */
 type DirectedStaticGraph struct {
-	nodes []DirectedStaticGraphNode
+	nodes []directedStaticGraphNode
 }
 
-/*
-DirectedStaticGraphNode represents the underlying node structure of the DirectedStaticGraph.
-It contains the node data under *value*, the indices (realtive to the node list, held by the graph)
-of the out-going edges under *outEdges* and the indices of the incoming nodes under *
-*/
-type DirectedStaticGraphNode struct {
-	value    interface{}
-	outEdges []uintptr
-	inEdges  []uintptr
+type directedStaticGraphNode struct {
+	value              interface{}
+	visited            bool
+	outEdges           []int
+	inEdges            []int
+	incomungEdgesCount int
 }
 
 /*
@@ -27,8 +24,8 @@ The first numbers representsthe index of the node (relative to the nodes list)
 from which the directed edge starts, while the second number represents the index
 of the node where the edge ends.
 */
-func CreateDirectedStaticGraph(values []interface{}, edges [][]uintptr) *DirectedStaticGraph {
-	graphNodes := make([]DirectedStaticGraphNode, len(values))
+func CreateDirectedStaticGraph(values []interface{}, edges [][]int) *DirectedStaticGraph {
+	graphNodes := make([]directedStaticGraphNode, len(values))
 
 	for i, val := range values {
 		graphNodes[i].value = val
@@ -40,5 +37,20 @@ func CreateDirectedStaticGraph(values []interface{}, edges [][]uintptr) *Directe
 		graphNodes[in].inEdges = append(graphNodes[in].inEdges, in)
 	}
 
-	return &DirectedStaticGraph{nodes: graphNodes}
+	graph := DirectedStaticGraph{nodes: graphNodes}
+	graph.resetIncomingEdgesCountForAllNodes()
+
+	return &graph
+}
+
+func (graph *DirectedStaticGraph) resetIncomingEdgesCountForAllNodes() {
+	for i := range graph.nodes {
+		graph.nodes[i].incomungEdgesCount = len(graph.nodes[i].inEdges)
+	}
+}
+
+func (graph *DirectedStaticGraph) resetVisitedFlagForAllNodes() {
+	for i := range graph.nodes {
+		graph.nodes[i].visited = false
+	}
 }

@@ -27,19 +27,3 @@ Peek description...
 func (heap *MaxBinaryHeap) Peek() int {
 	return 0
 }
-
-func (heap *MaxBinaryHeap) leftChild(i int) int {
-	return 2*i + 1
-}
-
-func (heap *MaxBinaryHeap) rightChild(i int) int {
-	return 2*i + 2
-}
-
-func (heap *MaxBinaryHeap) parent(i int) int {
-	return (i - 1) / 2
-}
-
-func (heap *MaxBinaryHeap) siftDown() {
-
-}

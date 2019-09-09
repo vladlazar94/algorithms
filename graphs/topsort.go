@@ -1,8 +1,7 @@
 package graphs
 
 /*
-TopSort performs a topological sort on DirectedStaticGraph, returning a list of
-node values respecing the edge ordering of the graph.
+TopSort ...
 */
 func (graph *DirectedStaticGraph) TopSort() ([]interface{}, bool) {
 	graph.resetVisitedFlagForAllNodes()

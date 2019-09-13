@@ -1,9 +1,9 @@
 package heap
 
 /*
-HeapSort description...
+Sort description...
 */
-func HeapSort(nums []int) {
+func Sort(nums []int) {
 	if len(nums) < 2 {
 		return
 	}
@@ -17,7 +17,7 @@ func HeapSort(nums []int) {
 }
 
 func buildHeap(nums []int, heapEnd int) {
-	lastParentIndex := parent(nums, heapEnd-1)
+	lastParentIndex := parentIndex(heapEnd - 1)
 
 	for i := lastParentIndex; i >= 0; i-- {
 		siftDown(nums, i, heapEnd)
@@ -28,7 +28,7 @@ func siftDown(nums []int, nodeIndex int, heapEnd int) {
 	currentIndex := nodeIndex
 
 	for currentIndex < heapEnd {
-		leftIndex, rightIndex := leftChild(nums, currentIndex), rightChild(nums, currentIndex)
+		leftIndex, rightIndex := leftChildIndex(currentIndex), rightChildIndex(currentIndex)
 
 		max := currentIndex
 
@@ -56,14 +56,14 @@ func swap(nums []int, i int, j int) {
 	nums[j] = temp
 }
 
-func leftChild(nums []int, i int) int {
+func leftChildIndex(i int) int {
 	return 2*i + 1
 }
 
-func rightChild(nums []int, i int) int {
+func rightChildIndex(i int) int {
 	return 2*i + 2
 }
 
-func parent(nums []int, i int) int {
+func parentIndex(i int) int {
 	return (i - 1) / 2
 }

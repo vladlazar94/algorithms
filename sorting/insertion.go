@@ -1,6 +1,6 @@
 package sorting
 
-func insertion(nums []int) {
+func insertion(nums []float64) {
 	for i := 1; i < len(nums); i++ {
 		key := nums[i]
 

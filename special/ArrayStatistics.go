@@ -1,4 +1,4 @@
-package dynamicprogramming
+package special
 
 /*
 MaxSubarraySum returns the highest sum over all contiguous subarrays of the input array.
@@ -21,8 +21,8 @@ func MaxSubarraySum(nums []int) int {
 	bestSumAdjacentToEnd := 0
 
 	for _, num := range nums {
-		bestSumAdjacentToEnd = max(0, num+bestSumAdjacentToEnd)
-		bestSum = max(bestSum, bestSumAdjacentToEnd)
+		bestSumAdjacentToEnd = Max(0, num+bestSumAdjacentToEnd)
+		bestSum = Max(bestSum, bestSumAdjacentToEnd)
 	}
 
 	return bestSum

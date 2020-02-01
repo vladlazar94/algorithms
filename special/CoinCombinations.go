@@ -1,4 +1,4 @@
-package dynamicprogramming
+package special
 
 import "math"
 
@@ -60,7 +60,7 @@ func MinCoinCombinations(target int, coinValues []int) int {
 	for i := range partialSolutions {
 		for _, value := range coinValues {
 			if value <= i {
-				partialSolutions[i] = min(partialSolutions[i], partialSolutions[i-value]+1)
+				partialSolutions[i] = Min(partialSolutions[i], partialSolutions[i-value]+1)
 			}
 		}
 	}
